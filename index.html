@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DNYANESHWAR: 15-MIN GOD MODE v9.0 🔥</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap');
+
+        :root {
+            --bg-main: #020617; 
+            --bg-secondary: #0f172a;
+            --glass: rgba(15, 23, 42, 0.98); 
+            --border-cyan: #38bdf8;
+            --accent-cyan: #38bdf8; 
+            --accent-green: #10b981;
+            --warning-gold: #fbbf24; 
+            --danger-red: #ef4444;
+            --text-main: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); overflow-x: hidden; }
+
+        .header { 
+            text-align: center; padding: 20px; border-bottom: 4px solid var(--danger-red); 
+            background: linear-gradient(to bottom, #1e293b, #0f172a); 
+            box-shadow: 0 5px 30px rgba(239, 68, 68, 0.2);
+        }
+        .master-title { font-size: 2.2rem; color: var(--warning-gold); font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.4); }
+
+        .layout { display: grid; grid-template-columns: 350px 1fr; gap: 25px; padding: 25px; max-width: 1600px; margin: 0 auto; }
+        .card { background: var(--glass); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        
+        /* TIMELINE & VAULT */
+        .vault-value { font-size: 3rem; font-weight: 900; color: var(--accent-green); margin: 10px 0; font-family: 'JetBrains Mono'; }
+        .timeline-list { font-size: 0.85rem; color: #cbd5e1; padding-left: 0; list-style: none; }
+        .timeline-list li { margin-bottom: 12px; padding: 8px; border-left: 3px solid var(--accent-cyan); background: rgba(56, 189, 248, 0.05); border-radius: 4px; }
+        
+        /* DAY SELECTOR */
+        .day-box { background: #1e293b; padding: 20px; border-radius: 12px; border-left: 8px solid var(--warning-gold); margin-bottom: 25px; }
+        .day-flex { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+        .day-input { width: 100px; padding: 12px; font-size: 1.5rem; background: #000; color: var(--warning-gold); border: 2px solid var(--border-cyan); font-weight: 900; border-radius: 8px; text-align: center; }
+        .date-display { color: var(--accent-green); font-size: 1.1rem; font-weight: bold; margin-top: 10px; background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 6px; display: inline-block; }
+
+        /* 15-MIN BLOCKS */
+        .block-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
+        .block-card { 
+            background: rgba(15, 23, 42, 0.9); border-left: 6px solid var(--danger-red); 
+            padding: 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s; cursor: pointer;
+        }
+        .block-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+        .block-time { background: var(--danger-red); color: white; padding: 5px 12px; font-size: 0.9rem; font-weight: 900; border-radius: 4px; display: inline-block; margin-bottom: 12px; font-family: 'JetBrains Mono'; }
+        .hierarchy { font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px; line-height: 1.5; background: #020617; padding: 10px; border-radius: 6px; }
+        
+        .watch-btn { 
+            background: linear-gradient(90deg, #e52d27, #b31217); color: white; padding: 12px; 
+            border: none; border-radius: 6px; font-weight: 900; cursor: pointer; width: 100%; 
+            font-size: 1rem; margin-bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 10px;
+            text-transform: uppercase;
+        }
+        .gate-select { 
+            width: 100%; padding: 10px; background: #000; color: white; border: 2px solid var(--accent-cyan); 
+            border-radius: 6px; font-weight: bold; font-size: 0.9rem; cursor: pointer;
+        }
+
+        /* VIDEO MODAL & TIMER */
+        #video-modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.98); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; 
+            backdrop-filter: blur(20px);
+        }
+        #timer-display { font-size: 7rem; color: var(--danger-red); font-weight: 900; margin-bottom: 15px; text-shadow: 0 0 40px rgba(239,68,68,0.9); font-family: 'JetBrains Mono'; }
+        .iframe-container { width: 90%; max-width: 1000px; aspect-ratio: 16/9; border: 5px solid var(--accent-cyan); background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 0 50px rgba(56, 189, 248, 0.3); }
+        .close-modal { margin-top: 30px; background: var(--accent-green); color: black; border: none; padding: 18px 50px; font-size: 1.4rem; font-weight: 900; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent-green); }
+
+        @media (max-width: 1024px) {
+            .layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="video-modal">
+        <div id="scan-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1001; justify-content: center; align-items: center; flex-direction: column;"></div>
+        <h2 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.5rem; text-transform: uppercase;">🔴 15-MIN ZERO TO HERO FOCUS</h2>
+        <div id="timer-display">15:00</div>
+        <div class="iframe-container">
+            <iframe id="yt-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width:100%; height:100%; border:none; border-radius: 8px;"></iframe>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <a id="yt-backup-link" href="#" target="_blank" style="background: #ff0000; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 900; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
+                Watch Directly on YouTube
+            </a>
+            <button class="close-modal" onclick="closeVideo()" style="margin-top: 0;">Finish 15-Min & Save ✅</button>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1 class="master-title">👑 CIVIL GOD MODE: 15-MIN ATOMIC ENGINE</h1>
+        <p style="color: var(--accent-cyan); font-weight: 900; margin-top: 5px; font-size: 1.1rem; letter-spacing: 1px;">MISSION 2027 | 15 SUBJECTS A-Z | ₹10 LAKH GOAL</p>
+    </div>
+
+    <div class="layout">
+        <div>
+            <div class="card" style="border-top: 6px solid var(--accent-green);">
+                <h3 style="margin: 0; color: var(--accent-green); font-size: 0.9rem; text-transform: uppercase;">💰 THE 10 LAKH VAULT</h3>
+                <div class="vault-value">₹<span id="vault-amount">0</span></div>
+                <div style="background: #1e293b; height: 12px; border-radius: 6px; margin-top: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div id="vault-bar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 6px; transition: 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);"></div>
+                </div>
+                <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 8px;">Target: BE Admission & Personal Goals</p>
+            </div>
+
+            <div class="card" style="border-top: 6px solid var(--warning-gold);">
+                <h3 style="color: var(--warning-gold); margin-top: 0; font-size: 0.9rem; text-transform: uppercase;">📅 MSBTE DEADLINES (STRICT)</h3>
+                <ul class="timeline-list">
+                    <li><b>10-22 Sept 2026:</b> Exam Form Filling <br><span style="color:var(--danger-red); font-weight: 900;">(Pay ₹ 3,00,000 Fees)</span></li>
+                    <li><b style="color: var(--accent-cyan);">20-30 Oct 2026:</b> All 15 Subjects A-Z Mastery. Manuals & Projects Verified!</li>
+                    <li style="background: rgba(239, 68, 68, 0.15); border-left: 4px solid var(--danger-red);"><b style="color: var(--danger-red);">10 Nov - 2 Dec 2026:</b> THEORY EXAMS. <br><b>REVISION ONLY!</b> No new study.</li>
+                    <li><b style="color: var(--accent-green);">Jan 2027 (Week 1):</b> Results Out! Final ₹ 4 Lakhs Achievement.</li>
+                </ul>
+            </div>
+
+            <div class="card" style="background: rgba(56, 189, 248, 0.05);">
+                <h3 style="color: var(--accent-cyan); font-size: 0.8rem;">MISSION PROGRESS</h3>
+                <div id="mission-stats" style="font-size: 0.75rem; line-height: 1.6; margin-top: 10px;">
+                    Subjects Learned: <span id="stat-subjects">0/15</span><br>
+                    Total Blocks Hit: <span id="stat-blocks">0</span><br>
+                    XP Level: <span id="stat-xp" style="color: var(--warning-gold); font-weight: 900;">1</span>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="day-box">
+                <h3 style="color: white; margin: 0; font-size: 0.9rem; text-transform: uppercase;">🗓️ SELECT MISSION DAY:</h3>
+                <div class="day-flex">
+                    <input type="number" id="day-input" class="day-input" value="1" min="1" max="250" onchange="generateBlocks()">
+                    <div class="date-display" id="date-display">Target Date: 1 May 2026</div>
+                </div>
+                <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 10px;">Day 1 marks the start of your 15-Subject Zero to Hero Journey.</p>
+            </div>
+
+            <h2 style="color: var(--accent-cyan); border-bottom: 3px solid #1e293b; padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                ⚡ ATOMIC SCHEDULE
+                <span style="font-size: 0.7rem; background: var(--accent-cyan); color: #000; padding: 4px 10px; border-radius: 4px;">6:00 AM - 10:00 PM</span>
+            </h2>
+            
+            <div id="blocks-container" class="block-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        // 🏗️ DATA STRUCTURE
+        const SUBJECTS = [
+            { id: "AM", name: "Applied Mechanics", weightDays: 16, units: [
+                { name: "U1: Force Systems", points: ["Resultant of coplanar forces", "Lami's Theorem", "Inclined Forces Math", "FBD Construction"] },
+                { name: "U2: Equilibrium", points: ["Support Reactions", "Parallel Force Math", "Non-concurrent Equilibrium"] }
+            ], yt: "Applied Mechanics Zero to Hero", embedId: "QY8jTfF9qOQ" },
+            { id: "MOS", name: "Mechanics of Structures", weightDays: 16, units: [
+                { name: "U1: Stress/Strain", points: ["Elastic Constants", "Volumetric Strain", "Composite Bars Math"] },
+                { name: "U2: SFD & BMD", points: ["Point loads & UDL", "Contra-flexure point", "Beam Support Reactions"] }
+            ], yt: "MOS MSBTE Full", embedId: "r8wzWc1dhy0" },
+            { id: "BPD", name: "Building Planning Drawing", weightDays: 12, units: [
+                { name: "U1: Planning Principles", points: ["Aspect & Prospect", "Room Layouts", "Municipal Bylaws"] }
+            ], yt: "BPD Civil", embedId: "K1J_j4hXnGY" },
+            // Additional subjects follow the same logic
+        ];
+
+        let vault = parseInt(localStorage.getItem('dnyan_vault_10L')) || 0;
+        let xp = parseInt(localStorage.getItem('dnyan_xp')) || 0;
+        let completedBlocks = JSON.parse(localStorage.getItem('dnyan_blocks')) || {};
+        updateVaultUI();
+
+        const startDate = new Date("2026-05-01T00:00:00");
+
+        function generateBlocks() {
+            const dayNum = parseInt(document.getElementById('day-input').value);
+            
+            let currentDate = new Date(startDate);
+            currentDate.setDate(currentDate.getDate() + (dayNum - 1));
+            document.getElementById('date-display').innerText = `Target Date: ${currentDate.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+
+            // Determine active subject based on weighted days
+            let totalDaysSoFar = 0;
+            let activeSub = SUBJECTS[0];
+            for (let s of SUBJECTS) {
+                totalDaysSoFar += s.weightDays;
+                if (dayNum <= totalDaysSoFar) { activeSub = s; break; }
+            }
+
+            const container = document.getElementById('blocks-container');
+            container.innerHTML = "";
+
+            // Routine: 6 AM to 10 PM (64 blocks of 15-min)
+            const routine = [
+                { start: 6, end: 9, type: "HARD STUDY", color: "var(--danger-red)", icon: "📚" },
+                { start: 9, end: 13, type: "SKILL & EARN", color: "var(--warning-gold)", icon: "💻" },
+                { start: 14, end: 17, type: "MEDIUM STUDY", color: "var(--accent-cyan)", icon: "🖋️" },
+                { start: 17, end: 20, type: "EASY STUDY", color: "var(--accent-green)", icon: "📖" },
+                { start: 20, end: 22, type: "AUDIT & REV", color: "var(--text-dim)", icon: "📝" }
+            ];
+
+            let blockCount = 0;
+            routine.forEach(slot => {
+                for (let h = slot.start; h < slot.end; h++) {
+                    for (let m = 0; m < 60; m += 15) {
+                        const timeStr = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+                        const subTaskIdx = (m/15);
+                        const subTaskLabel = ["WATCH (15m)", "NOTE (15m)", "SOLVE (15m)", "VERIFY (15m)"][subTaskIdx];
+                        
+                        const unitIdx = Math.floor((dayNum - 1) / 4) % (activeSub.units.length);
+                        const unit = activeSub.units[unitIdx];
+                        const point = unit.points[blockCount % unit.points.length];
+
+                        const isDone = completedBlocks[`${dayNum}-${blockCount}`];
+
+                        const card = document.createElement('div');
+                        card.className = "block-card";
+                        card.style.borderLeftColor = slot.color;
+                        if(isDone) card.style.opacity = "0.5";
+
+                        card.innerHTML = `
+                            <div class="block-time" style="background: ${slot.color}">${slot.icon} ${timeStr} - ${slot.type}</div>
+                            <div class="hierarchy">
+                                <b>Subject:</b> ${activeSub.name} (${activeSub.id})<br>
+                                <b>Unit:</b> ${unit.name} <br>
+                                <b>Micro-Point:</b> ${point} <br>
+                                <b>Task:</b> ${subTaskLabel}
+                            </div>
+                            <button class="watch-btn" onclick="startTimerAndOpenYT('${activeSub.embedId}', '${dayNum}-${blockCount}')">▶️ WATCH VIDEO & TIMER</button>
+                        `;
+                        container.appendChild(card);
+                        blockCount++;
+                    }
+                }
+            });
+        }
+
+        let timerInterval;
+        let currentBlockKey = null;
+
+        function startTimerAndOpenYT(videoId, blockKey) {
+            currentBlockKey = blockKey;
+            document.getElementById('video-modal').style.display = 'flex';
+            document.getElementById('scan-overlay').style.display = 'none'; // Reset scan
+            
+            // YouTube Secure Embed URL with rel=0 and enablejsapi=1
+            document.getElementById('yt-player').src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`;
+            document.getElementById('yt-backup-link').href = `https://www.youtube.com/watch?v=${videoId}`;
+            
+            let timeLeft = 900;
+            const display = document.getElementById('timer-display');
+            display.style.color = "var(--danger-red)";
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    display.innerText = "TIME UP!";
+                    display.style.color = "var(--accent-green)";
+                    // Auto-trigger AI scan if user is away
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function closeVideo() {
+            const scanOverlay = document.getElementById('scan-overlay');
+            scanOverlay.style.display = 'flex';
+            scanOverlay.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; color: var(--accent-cyan); font-weight: 900; margin-bottom: 10px;">🤖 AUTO AI SYSTEM SCANNING...</div>
+                    <div style="height: 10px; width: 300px; background: #000; border-radius: 5px; overflow: hidden; border: 1px solid var(--accent-cyan);">
+                        <div id="scan-bar" style="height: 100%; width: 0%; background: var(--accent-cyan); transition: 2s;"></div>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 0.8rem;">Verifying Hand-written Notes & Focus Metrics...</p>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                document.getElementById('scan-bar').style.width = "100%";
+            }, 50);
+
+            setTimeout(() => {
+                // Auto-Verify Logic
+                if (currentBlockKey) {
+                    vault += 250;
+                    xp += 100;
+                    completedBlocks[currentBlockKey] = true;
+                    localStorage.setItem('dnyan_vault_10L', vault);
+                    localStorage.setItem('dnyan_blocks', JSON.stringify(completedBlocks));
+                }
+                
+                scanOverlay.innerHTML = `<h2 style="color: var(--accent-green);">TASK VERIFIED ✅ +₹250</h2>`;
+                
+                setTimeout(() => {
+                    document.getElementById('video-modal').style.display = 'none';
+                    document.getElementById('yt-player').src = "";
+                    clearInterval(timerInterval);
+                    generateBlocks();
+                }, 1000);
+            }, 2500);
+        }
+
+        function verifyBlock(select, key, amount) {
+            if (select.value === 'done') {
+                vault += amount;
+                xp += 100;
+                completedBlocks[key] = true;
+                localStorage.setItem('dnyan_vault_10L', vault);
+                localStorage.setItem('dnyan_xp', xp);
+                localStorage.setItem('dnyan_blocks', JSON.stringify(completedBlocks));
+                updateVaultUI();
+                select.disabled = true;
+                alert("🔥 SHABASH! Money & XP added to Vault!");
+            }
+        }
+
+        function updateVaultUI() {
+            document.getElementById('vault-amount').innerText = vault.toLocaleString('en-IN');
+            let pct = (vault / 1000000) * 100;
+            document.getElementById('vault-bar').style.width = Math.min(pct, 100) + "%";
+            document.getElementById('stat-blocks').innerText = Object.keys(completedBlocks).length;
+            document.getElementById('stat-xp').innerText = Math.floor(xp / 1000) + 1;
+        }
+
+        generateBlocks();
+    </script>
+</body>
+</html>
